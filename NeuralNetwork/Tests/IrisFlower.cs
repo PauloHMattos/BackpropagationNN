@@ -191,22 +191,18 @@ namespace NeuralNetwork.Tests
             const int numInput = 4;
             const int numHidden = 7;
             const int numOutput = 3;
-
-            Console.WriteLine("\nRede neural com " + numInput + "-entradas, " +
-                              numHidden + "-hidden, " + numOutput + "-output");
-            Console.WriteLine("Tangente hiperbolica para ativação input-hidden");
-            Console.WriteLine("Sigmoid para ativação hidden-output");
-
-            var nn = new NeuralNet(numInput, numHidden, numOutput,
-                new HyperbolicTanActivation(), new SigmoidActivation());
-            nn.InitializeWeights();
             
-            const double minSquaredError = 0.02;
+            var hiddenActivation = new HyperbolicTanActivation();
+            var outputActivation = new SigmoidActivation();
+            NeuralNetData(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
+            var nn = new NeuralNet(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
+            nn.InitializeWeights();
 
             const int maxEpochs = 2000;
-            const double learnRate = 0.05;
-            const double momentum = 0.01;
-            const double weightDecay = 0.0001;
+            const double minSquaredError = 0.01;
+            const double learnRate = 0.5;
+            const double momentum = 0.2;
+            const double weightDecay = 0;
 
             int epoch;
             double mse;

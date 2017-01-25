@@ -13,7 +13,7 @@ namespace NeuralNetwork
                 TestCases.IrisFlower();
             else if (line == "-count")
                 TestCases.Count();
-
+            
             Console.WriteLine("\nPress ESC to stop");
             do
             {

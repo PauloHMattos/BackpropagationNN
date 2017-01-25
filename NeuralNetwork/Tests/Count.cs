@@ -7,6 +7,14 @@ namespace NeuralNetwork.Tests
 {
     public static partial class TestCases
     {
+        private static void NeuralNetData(int numInput, int numHidden, int numOutput, IActivationFunction hiddenActivationFunction, IActivationFunction outputActivationFunction)
+        {
+            Console.WriteLine("\nRede neural com " + numInput + "-entradas, " +
+                              numHidden + "-hidden, " + numOutput + "-output");
+            Console.WriteLine("   -Ativação Hidden-Input: " + hiddenActivationFunction.GetType().Name);
+            Console.WriteLine("   -Ativação Hidden-Output: " + outputActivationFunction.GetType().Name);
+        }
+
         private static void ReportStart(int maxEpochs, double minSquaredError, double learnRate, double momentum, double weightDecay)
         {
             Console.WriteLine("\nTreino iniciado");
@@ -20,7 +28,7 @@ namespace NeuralNetwork.Tests
         private static void ReportEnd(Stopwatch watch, int epoch, double mse)
         {
             Console.WriteLine("\nTreino finalizado");
-            Console.WriteLine("   -Duração:" + watch.Elapsed);
+            Console.WriteLine("   -Duração: " + watch.Elapsed);
             Console.WriteLine("   -Épocas de treino: " + epoch);
             Console.WriteLine("   -Último MSE: " + mse);
             Console.WriteLine("\n");
@@ -52,13 +60,11 @@ namespace NeuralNetwork.Tests
             const int numHidden = 8;
             const int numOutput = 4;
 
-            Console.WriteLine("\nRede neural com " + numInput + "-entradas, " +
-                              numHidden + "-hidden, " + numOutput + "-output");
-            Console.WriteLine("Tangente hiperbolica para ativação input-hidden");
-            Console.WriteLine("Sigmoid para ativação hidden-output");
 
-            var nn = new NeuralNet(numInput, numHidden, numOutput,
-                new HyperbolicTanActivation(), new SigmoidActivation());
+            var hiddenActivation = new HyperbolicTanActivation();
+            var outputActivation = new SigmoidActivation();
+            NeuralNetData(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
+            var nn = new NeuralNet(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
             nn.InitializeWeights();
 
             const int maxEpochs = 1000;

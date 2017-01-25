@@ -29,7 +29,7 @@ namespace NeuralNetwork
         /// <summary>
         /// Pesos entre os nós da camada de entrada e os nós da camada "oculta"
         /// </summary>
-        private readonly double[][] _inputHiddenWeights; // input-hidden
+        private readonly double[][] _inputHiddenWeights;
         /// <summary>
         /// Vieses da camada "oculta"
         /// </summary>
