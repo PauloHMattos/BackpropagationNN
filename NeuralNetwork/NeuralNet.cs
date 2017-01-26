@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NeuralNetwork.Activation;
 
 namespace NeuralNetwork
@@ -385,13 +386,14 @@ namespace NeuralNetwork
         /// </summary>
         /// <param name="testData">Conjunto de daos a ser testado</param>
         /// <returns>Porcentagem de acerto (0.0 ~ 1.0)</returns>
-        public double Accuracy(double[][] testData)
+        public double Accuracy(IEnumerable<double[]> testData)
         {
             var numCorrect = 0;
             var numWrong = 0;
             var inputValues = new double[_numInput];
             var targetedOutputs = new double[_numOutput];
-
+            var _positives = 0;
+            var _negatives = 0;
             foreach (var data in testData)
             {
                 Array.Copy(data, inputValues, _numInput);
@@ -400,6 +402,12 @@ namespace NeuralNetwork
                 ComputeOutputs(inputValues);
                 var computedOutputs = GetOutputs();
                 var maxIndex = MaxIndex(computedOutputs); // Qual das saídas tem o maior valor?
+                if (maxIndex == 0)
+                    _positives++;
+                else
+                {
+                    _negatives++;
+                }
 
                 if (targetedOutputs[maxIndex].Equals(1.0))
                     // Se a saída que calculamos for a certa (i.e 1.0 dos dados de treino)
@@ -408,7 +416,7 @@ namespace NeuralNetwork
                     ++numWrong;
             }
             // TODO-Checar possivel divisão por 0
-            return (numCorrect * 1.0) / (numCorrect + numWrong);
+            return (double)numCorrect / (numCorrect + numWrong);
         }
         
         #region Helpers

@@ -185,8 +185,8 @@ namespace NeuralNetwork.Tests
 
             // Normaliza os dados (valores > 1)
             // Torna o treino mais rápido, e produz uma precisão maior
-            Normalize(trainData, new[] { 0, 1, 2, 3 });
-            Normalize(testData, new[] { 0, 1, 2, 3 });
+            Normalize(trainData, 4);
+            Normalize(testData, 4);
 
             const int numInput = 4;
             const int numHidden = 7;
@@ -268,10 +268,10 @@ namespace NeuralNetwork.Tests
             }
         }
 
-        private static void Normalize(double[][] dataMatrix, int[] cols)
+        private static void Normalize(double[][] dataMatrix, int cols)
         {
             // normalize specified cols by computing (x - mean) / sd for each value
-            foreach (var col in cols)
+            for (var col = 0; col < cols; col++)
             {
                 var sum = 0.0;
                 for (var i = 0; i < dataMatrix.Length; ++i)
