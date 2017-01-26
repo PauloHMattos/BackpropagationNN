@@ -1,13 +1,10 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NeuralNetwork.Activation;
+using NeuralNetwork.Nets;
 
 namespace NeuralNetwork.Tests
 {
@@ -18,7 +15,7 @@ namespace NeuralNetwork.Tests
             var br = new BirdRecon();
             br.LoadTrainData();
             br.LoadTestData();
-
+            
             int numInput = br.TestData[0].Length - 2;
             const int numHidden = 2;
             const int numOutput = 2;
@@ -26,17 +23,17 @@ namespace NeuralNetwork.Tests
             var trainData = br.TrainData.ToArray();
             var testData = br.TestData.ToArray();
 
-            Normalize(trainData, 1024);
-            Normalize(testData, 1024);
+            Normalize(trainData, numInput);
+            Normalize(testData, numInput);
 
             var hiddenActivation = new SigmoidActivation();
             var outputActivation = new SigmoidActivation();
             NeuralNetData(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
-            var nn = new NeuralNet(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
+            var nn = new BackpropNeuralNet(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
             nn.InitializeWeights();
 
             const int maxEpochs = 500;
-            const double minSquaredError = 0.01;
+            const double minSquaredError = 0.1;
             const double learnRate = 0.4;
             const double momentum = 0.6;
             const double weightDecay = 0;
@@ -71,8 +68,7 @@ namespace NeuralNetwork.Tests
                     }
                     bool positive;
                     var data = br.GetData(path, out positive);
-                    nn.ComputeOutputs(data);
-                    var outputs = nn.GetOutputs();
+                    var outputs = nn.GetOutputs(data);
                     Utils.ShowVector(outputs, 2, 5, false);
                 }
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);

@@ -55,7 +55,8 @@
     <Compile Include="Activation\SinusoidActivation.cs" />
     <Compile Include="Activation\SoftmaxActivation.cs" />
     <Compile Include="Activation\SoftSignActivation.cs" />
-    <Compile Include="NeuralNet.cs" />
+    <Compile Include="Nets\BackpropNeuralNet.cs" />
+    <Compile Include="Nets\Convolutional\ConvolutionalNeuralNet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\BirdRecon.cs" />

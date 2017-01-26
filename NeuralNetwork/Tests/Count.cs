@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using NeuralNetwork.Activation;
+using NeuralNetwork.Nets;
 
 namespace NeuralNetwork.Tests
 {
@@ -64,7 +65,7 @@ namespace NeuralNetwork.Tests
             var hiddenActivation = new HyperbolicTanActivation();
             var outputActivation = new SigmoidActivation();
             NeuralNetData(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
-            var nn = new NeuralNet(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
+            var nn = new BackpropNeuralNet(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
             nn.InitializeWeights();
 
             const int maxEpochs = 1000;

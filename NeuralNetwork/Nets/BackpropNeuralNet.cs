@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using NeuralNetwork.Activation;
 
-namespace NeuralNetwork
+namespace NeuralNetwork.Nets
 {
-    public class NeuralNet
+    public class BackpropNeuralNet
     {
         private static Random _rnd;
 
@@ -78,7 +78,7 @@ namespace NeuralNetwork
 
         #endregion
 
-        public NeuralNet(int numInput, int numHidden, int numOutput, IActivationFunction hiddenOutputActivation, IActivationFunction outputActivation)
+        public BackpropNeuralNet(int numInput, int numHidden, int numOutput, IActivationFunction hiddenOutputActivation, IActivationFunction outputActivation)
         {
             // Usado em InitializeWeights() and Shuffle()
             // Seed definida em 0 torna deterministico.
@@ -232,6 +232,12 @@ namespace NeuralNetwork
                 // Aplica a função de ativação
                 _outputs[j] = _outputActivation.Function(outputSum);
             }
+        }
+
+        public double[] GetOutputs(double[] inputs)
+        {
+            ComputeOutputs(inputs);
+            return GetOutputs();
         }
 
         public double[] GetOutputs()
