@@ -1,4 +1,4 @@
-namespace NeuralNetwork.Activation
+namespace NeuralNetwork.Activations
 {
     public interface ISumActivationFunction
     {

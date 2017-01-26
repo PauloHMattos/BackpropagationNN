@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NeuralNetwork.Activation;
+using NeuralNetwork.Activations;
 
-namespace NeuralNetwork.Tests
+namespace NeuralNetwork.Utils
 {
-    public static partial class TestCases
+    public static class TestReportUtils
     {
-        private static void NeuralNetData(int numInput, int numHidden, int numOutput,
+        public static void NeuralNetData(int numInput, int numHidden, int numOutput,
             IActivationFunction hiddenActivationFunction, IActivationFunction outputActivationFunction)
         {
             Console.WriteLine("\nRede neural com " + numInput + "-entradas, " +
@@ -19,7 +15,7 @@ namespace NeuralNetwork.Tests
             Console.WriteLine("   -Ativação Hidden-Output: " + outputActivationFunction.GetType().Name);
         }
 
-        private static void ReportStart(int maxEpochs, double minSquaredError, double learnRate, double momentum,
+        public static void ReportStart(int maxEpochs, double minSquaredError, double learnRate, double momentum,
             double weightDecay)
         {
             Console.WriteLine("\nTreino iniciado");
@@ -30,7 +26,7 @@ namespace NeuralNetwork.Tests
             Console.WriteLine("   -Decaimento: " + weightDecay);
         }
 
-        private static void ReportEnd(Stopwatch watch, int epoch, double mse)
+        public static void ReportEnd(Stopwatch watch, int epoch, double mse)
         {
             Console.WriteLine("\nTreino finalizado");
             Console.WriteLine("   -Duração: " + watch.Elapsed);

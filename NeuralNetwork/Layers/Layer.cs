@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using NeuralNetwork.Activation;
+using NeuralNetwork.Activations;
+using NeuralNetwork.Neurons;
+using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Nets
+namespace NeuralNetwork.Layers
 {
     public class Layer : IEnumerable<Neuron>
     {

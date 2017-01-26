@@ -1,6 +1,6 @@
 using System;
 
-namespace NeuralNetwork.Activation
+namespace NeuralNetwork.Activations
 {
     /// <summary>
     /// Representa o funcionamento de um perceptron

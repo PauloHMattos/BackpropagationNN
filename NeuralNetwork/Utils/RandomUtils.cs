@@ -1,6 +1,6 @@
 using System;
 
-namespace NeuralNetwork.Nets
+namespace NeuralNetwork.Utils
 {
     public static class RandomUtils
     {

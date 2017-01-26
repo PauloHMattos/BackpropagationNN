@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NeuralNetwork
 {
-    public static class Utils
+    public static class ConsoleUtils
     {
         public static void ShowVector(IEnumerable<double> vector, int valsPerRow, int decimals, bool newLine)
         {

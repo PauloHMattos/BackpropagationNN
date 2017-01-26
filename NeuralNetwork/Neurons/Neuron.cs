@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Security.Permissions;
+using NeuralNetwork.Layers;
+using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Nets
+namespace NeuralNetwork.Neurons
 {
     public class Neuron
     {

@@ -1,4 +1,6 @@
-namespace NeuralNetwork.Nets
+using NeuralNetwork.Utils;
+
+namespace NeuralNetwork.Neurons
 {
     public class Synapse
     {

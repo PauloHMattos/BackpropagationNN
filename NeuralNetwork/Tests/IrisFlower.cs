@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NeuralNetwork.Activation;
-using NeuralNetwork.Nets;
+using NeuralNetwork.Activations;
+using NeuralNetwork.Layers;
+using NeuralNetwork.Networks;
+using NeuralNetwork.Training;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.Tests
 {
@@ -223,12 +226,12 @@ namespace NeuralNetwork.Tests
 
             var watch = new Stopwatch();
 
-            ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
+            TestReportUtils.ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
             watch.Start();
             net.Train(trainConfiguration, inputs, targetOutputs, out result);
             watch.Stop();
 
-            ReportEnd(watch, result.Epochs, result.Error);
+            TestReportUtils.ReportEnd(watch, result.Epochs, result.Error);
 
             Console.WriteLine("Precisão com os dados de treinamento: " + net.Accuracy(trainData, 4, 3).ToString("F4"));
             Console.WriteLine("Precisão com os dados de teste: " + net.Accuracy(testData, 4, 3).ToString("F4"));

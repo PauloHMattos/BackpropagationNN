@@ -1,6 +1,6 @@
 using System;
 
-namespace NeuralNetwork.Activation
+namespace NeuralNetwork.Activations
 {
     public class GaussianActivation : IActivationFunction
     {

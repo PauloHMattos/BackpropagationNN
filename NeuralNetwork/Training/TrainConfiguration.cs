@@ -1,4 +1,4 @@
-namespace NeuralNetwork.Nets
+namespace NeuralNetwork.Training
 {
     public struct TrainConfiguration
     {

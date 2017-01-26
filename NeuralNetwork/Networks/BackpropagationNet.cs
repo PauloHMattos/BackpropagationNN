@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using NeuralNetwork.Layers;
+using NeuralNetwork.Neurons;
+using NeuralNetwork.Training;
 
-namespace NeuralNetwork.Nets
+namespace NeuralNetwork.Networks
 {
     public class BackpropagationNet
     {

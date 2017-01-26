@@ -4,8 +4,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using NeuralNetwork.Activation;
-using NeuralNetwork.Nets;
+using NeuralNetwork.Activations;
+using NeuralNetwork.Layers;
+using NeuralNetwork.Networks;
+using NeuralNetwork.Training;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.Tests
 {
@@ -54,19 +57,16 @@ namespace NeuralNetwork.Tests
                 WeightDecay = 0
             };
             
-            int epoch;
-            double mse;
-
             TrainResult result;
 
             var watch = new Stopwatch();
 
-            ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
+            TestReportUtils.ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
             watch.Start();
             net.Train(trainConfiguration, inputs, targetOutputs, out result);
             watch.Stop();
 
-            ReportEnd(watch, result.Epochs, result.Error);
+            TestReportUtils.ReportEnd(watch, result.Epochs, result.Error);
 
             Console.WriteLine("Precisão com os dados de treinamento: " + net.Accuracy(trainData, numInput, numOutput).ToString("F4"));
             Console.WriteLine("Precisão com os dados de teste: " + net.Accuracy(testData, numInput, numOutput).ToString("F4"));
@@ -88,7 +88,7 @@ namespace NeuralNetwork.Tests
                     net.FeedForward(data);
                     output.Clear();
                     net.GetOutputs(output);
-                    Utils.ShowVector(output, 2, 5, false);
+                    ConsoleUtils.ShowVector(output, 2, 5, false);
                 }
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }

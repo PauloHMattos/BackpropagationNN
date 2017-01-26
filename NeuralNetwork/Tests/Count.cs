@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using NeuralNetwork.Activation;
-using NeuralNetwork.Nets;
+using NeuralNetwork.Activations;
+using NeuralNetwork.Layers;
+using NeuralNetwork.Networks;
+using NeuralNetwork.Training;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.Tests
 {
@@ -76,19 +78,19 @@ namespace NeuralNetwork.Tests
 
             var watch = new Stopwatch();
 
-            ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
+            TestReportUtils.ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
             watch.Start();
             net.Train(trainConfiguration, inputs, targetOutputs, out result);
             watch.Stop();
 
-            ReportEnd(watch, result.Epochs, result.Error);
+            TestReportUtils.ReportEnd(watch, result.Epochs, result.Error);
             
             var output = new List<double>();
             foreach (var input in inputs)
             {
                 net.FeedForward(input);
                 net.GetOutputs(output);
-                Utils.ShowVector(output, 4, 0, false);
+                ConsoleUtils.ShowVector(output, 4, 0, false);
                 Thread.Sleep(500);
             }
         }

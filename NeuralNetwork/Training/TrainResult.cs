@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NeuralNetwork.Nets
+namespace NeuralNetwork.Training
 {
     public struct TrainResult
     {

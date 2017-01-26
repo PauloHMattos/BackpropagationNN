@@ -44,38 +44,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activation\ArcTanActivation.cs" />
-    <Compile Include="Activation\BinaryStepActivation.cs" />
-    <Compile Include="Activation\GaussianActivation.cs" />
-    <Compile Include="Activation\HyperbolicTanActivation.cs" />
-    <Compile Include="Activation\IActivationFunction.cs" />
-    <Compile Include="Activation\IdentityActivation.cs" />
-    <Compile Include="Activation\ISumActivationFunction.cs" />
-    <Compile Include="Activation\SigmoidActivation.cs" />
-    <Compile Include="Activation\SinusoidActivation.cs" />
-    <Compile Include="Activation\SoftmaxActivation.cs" />
-    <Compile Include="Activation\SoftSignActivation.cs" />
-    <Compile Include="Nets\BackpropagationNet.cs" />
-    <Compile Include="Nets\Layer.cs" />
-    <Compile Include="Nets\Neuron.cs" />
-    <Compile Include="Nets\RandomUtils.cs" />
-    <Compile Include="Nets\Synapse.cs" />
-    <Compile Include="Nets\TrainConfiguration.cs" />
-    <Compile Include="Nets\TrainResult.cs" />
+    <Compile Include="Activations\ArcTanActivation.cs" />
+    <Compile Include="Activations\BinaryStepActivation.cs" />
+    <Compile Include="Activations\GaussianActivation.cs" />
+    <Compile Include="Activations\HyperbolicTanActivation.cs" />
+    <Compile Include="Activations\IActivationFunction.cs" />
+    <Compile Include="Activations\IdentityActivation.cs" />
+    <Compile Include="Activations\ISumActivationFunction.cs" />
+    <Compile Include="Activations\SigmoidActivation.cs" />
+    <Compile Include="Activations\SinusoidActivation.cs" />
+    <Compile Include="Activations\SoftmaxActivation.cs" />
+    <Compile Include="Activations\SoftSignActivation.cs" />
+    <Compile Include="Networks\BackpropagationNet.cs" />
+    <Compile Include="Layers\Layer.cs" />
+    <Compile Include="Neurons\Neuron.cs" />
+    <Compile Include="Utils\RandomUtils.cs" />
+    <Compile Include="Neurons\Synapse.cs" />
+    <Compile Include="Training\TrainConfiguration.cs" />
+    <Compile Include="Training\TrainResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\BirdRecon.cs" />
     <Compile Include="Tests\Count.cs" />
     <Compile Include="Tests\IrisFlower.cs" />
-    <Compile Include="Tests\TestReportUtil.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Utils\TestReportUtils.cs" />
+    <Compile Include="Utils\ConsoleUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Nets\Convolutional\" />
+    <Folder Include="Networks\Convolutional\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
