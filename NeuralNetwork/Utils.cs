@@ -1,15 +1,17 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NeuralNetwork
 {
     public static class Utils
     {
-        public static void ShowVector(double[] vector, int valsPerRow, int decimals, bool newLine)
+        public static void ShowVector(IEnumerable<double> vector, int valsPerRow, int decimals, bool newLine)
         {
-            for (var i = 0; i < vector.Length; ++i)
+            for (var i = 0; i < vector.Count(); ++i)
             {
                 if (i % valsPerRow == 0) Console.WriteLine("");
-                Console.Write(vector[i].ToString("F" + decimals).PadLeft(decimals + 4) + " ");
+                Console.Write(vector.ElementAt(i).ToString("F" + decimals).PadLeft(decimals + 4) + " ");
             }
             if (newLine) Console.WriteLine("");
         }

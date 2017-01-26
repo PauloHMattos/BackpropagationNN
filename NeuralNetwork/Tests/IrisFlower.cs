@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using NeuralNetwork.Activation;
 using NeuralNetwork.Nets;
 
@@ -9,6 +11,7 @@ namespace NeuralNetwork.Tests
     {
         public static void IrisFlower()
         {
+            //IrisFlower();
             #region Data
 
             var allData = new double[150][];
@@ -177,9 +180,6 @@ namespace NeuralNetwork.Tests
             allData[148] = new[] { 6.2, 3.4, 5.4, 2.3, 1, 0, 0 };
             allData[149] = new[] { 5.9, 3.0, 5.1, 1.8, 1, 0, 0 };
 
-            #endregion
-
-            Console.WriteLine("Separa todos os dados em 80% para trainamento e 20% para teste");
             double[][] trainData;
             double[][] testData;
             MakeTrainTest(allData, out trainData, out testData);
@@ -189,43 +189,55 @@ namespace NeuralNetwork.Tests
             Normalize(trainData, 4);
             Normalize(testData, 4);
 
-            const int numInput = 4;
-            const int numHidden = 7;
-            const int numOutput = 3;
-            
-            var hiddenActivation = new HyperbolicTanActivation();
-            var outputActivation = new SigmoidActivation();
-            NeuralNetData(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
-            var nn = new BackpropNeuralNet(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
-            nn.InitializeWeights();
+            #endregion
 
-            const int maxEpochs = 2000;
-            const double minSquaredError = 0.01;
-            const double learnRate = 0.5;
-            const double momentum = 0.2;
-            const double weightDecay = 0;
+            var inputs = new List<double[]>();
+            var targetOutputs = new List<double[]>();
+            foreach (var data in trainData)
+            {
+                inputs.Add(data.Take(4).ToArray());
+                targetOutputs.Add(data.Skip(4).Take(3).ToArray());
+            }
 
-            int epoch;
-            double mse;
             
+            var inputLayer = new Layer(4, new IdentityActivation());
+            var hiddenLayer = new Layer(3, new HyperbolicTanActivation());
+            var outputLayer = new Layer(3, new SigmoidActivation());
+
+            var net = new BackpropagationNet()
+                .InputLayer(inputLayer)
+                .HiddenLayers(hiddenLayer)
+                .OutputLayer(outputLayer);
+            net.BuildConnections();
+
+            var trainConfiguration = new TrainConfiguration
+            {
+                MaxEpochs = 2000,
+                LearnRate = 0.25,
+                MinError = 0.001,
+                Momentum = 0.3,
+                WeightDecay = 0
+            };
+            
+            TrainResult result;
+
             var watch = new Stopwatch();
 
-            ReportStart(maxEpochs, minSquaredError, learnRate, momentum, weightDecay);
-
+            ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
             watch.Start();
-            nn.Train(trainData, maxEpochs, minSquaredError, learnRate,
-                momentum, weightDecay, out mse, out epoch);
+            net.Train(trainConfiguration, inputs, targetOutputs, out result);
             watch.Stop();
-            
-            ReportEnd(watch, epoch, mse);
-            
-            Console.WriteLine("Precisão com os dados de treinamento: " + nn.Accuracy(trainData).ToString("F4"));
-            Console.WriteLine("Precisão com os dados de teste: " + nn.Accuracy(testData).ToString("F4"));
-        }
 
+            ReportEnd(watch, result.Epochs, result.Error);
+
+            Console.WriteLine("Precisão com os dados de treinamento: " + net.Accuracy(trainData, 4, 3).ToString("F4"));
+            Console.WriteLine("Precisão com os dados de teste: " + net.Accuracy(testData, 4, 3).ToString("F4"));
+
+        }
+        
         private static void MakeTrainTest(double[][] allData, out double[][] trainData, out double[][] testData)
         {
-            // split allData into 80% trainData and 20% testData
+            // split allData into 80% TrainConfiguration and 20% testData
             var rnd = new Random(0);
             var totRows = allData.Length;
             var numCols = allData[0].Length;
@@ -249,7 +261,7 @@ namespace NeuralNetwork.Tests
             }
 
             var si = 0; // index into sequence[]
-            var j = 0; // index into trainData or testData
+            var j = 0; // index into TrainConfiguration or testData
 
             for (; si < trainRows; ++si) // first rows to train data
             {

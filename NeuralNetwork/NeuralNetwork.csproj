@@ -55,18 +55,27 @@
     <Compile Include="Activation\SinusoidActivation.cs" />
     <Compile Include="Activation\SoftmaxActivation.cs" />
     <Compile Include="Activation\SoftSignActivation.cs" />
-    <Compile Include="Nets\BackpropNeuralNet.cs" />
-    <Compile Include="Nets\Convolutional\ConvolutionalNeuralNet.cs" />
+    <Compile Include="Nets\BackpropagationNet.cs" />
+    <Compile Include="Nets\Layer.cs" />
+    <Compile Include="Nets\Neuron.cs" />
+    <Compile Include="Nets\RandomUtils.cs" />
+    <Compile Include="Nets\Synapse.cs" />
+    <Compile Include="Nets\TrainConfiguration.cs" />
+    <Compile Include="Nets\TrainResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\BirdRecon.cs" />
     <Compile Include="Tests\Count.cs" />
     <Compile Include="Tests\IrisFlower.cs" />
+    <Compile Include="Tests\TestReportUtil.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Nets\Convolutional\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
