@@ -1,19 +1,20 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NeuralNetwork.Activation;
+using NeuralNetwork.Activations;
+using NeuralNetwork.Layers;
+using NeuralNetwork.Networks;
+using NeuralNetwork.Training;
+using NeuralNetwork.Utils;
 
 namespace NeuralNetwork.Tests
 {
     public static partial class TestCases
     {
-        public static void BirdRecognition()
+        public static void BirdRecognition(string[] commands)
         {
             var br = new BirdRecon();
             br.LoadTrainData();
@@ -26,38 +27,51 @@ namespace NeuralNetwork.Tests
             var trainData = br.TrainData.ToArray();
             var testData = br.TestData.ToArray();
 
-            Normalize(trainData, 1024);
-            Normalize(testData, 1024);
+            var inputs = new List<double[]>();
+            var targetOutputs = new List<double[]>();
+            foreach (var data in trainData)
+            {
+                inputs.Add(data.Take(numInput).ToArray());
+                targetOutputs.Add(data.Skip(numInput).Take(numOutput).ToArray());
+            }
 
-            var hiddenActivation = new SigmoidActivation();
-            var outputActivation = new SigmoidActivation();
-            NeuralNetData(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
-            var nn = new NeuralNet(numInput, numHidden, numOutput, hiddenActivation, outputActivation);
-            nn.InitializeWeights();
+            Normalize(trainData, numInput);
+            Normalize(testData, numInput);
 
-            const int maxEpochs = 500;
-            const double minSquaredError = 0.01;
-            const double learnRate = 0.4;
-            const double momentum = 0.6;
-            const double weightDecay = 0;
+            var inputLayer = new Layer(numInput, new IdentityActivation());
+            var hiddenLayer = new Layer(numHidden, new SigmoidActivation());
+            var outputLayer = new Layer(numOutput, new SigmoidActivation());
 
-            int epoch;
-            double mse;
+            var net = new BackpropagationNet()
+                .InputLayer(inputLayer)
+                .HiddenLayers(hiddenLayer)
+                .OutputLayer(outputLayer);
+            net.BuildConnections();
+
+            var trainConfiguration = new TrainConfiguration
+            {
+                MaxEpochs = 10,
+                LearnRate = 0.4,
+                MinError = 0.1,
+                Momentum = 0.6,
+                WeightDecay = 0
+            };
+            
+            TrainResult result;
 
             var watch = new Stopwatch();
 
-            ReportStart(maxEpochs, minSquaredError, learnRate, momentum, weightDecay);
-
+            TestCasesUtils.ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
             watch.Start();
-            nn.Train(trainData, maxEpochs, minSquaredError, learnRate,
-                momentum, weightDecay, out mse, out epoch);
+            net.Train(trainConfiguration, inputs, targetOutputs, out result);
             watch.Stop();
 
-            ReportEnd(watch, epoch, mse);
-            
-            Console.WriteLine("Precisão com os dados de treinamento: " + nn.Accuracy(trainData).ToString("F4"));
-            Console.WriteLine("Precisão com os dados de teste: " + nn.Accuracy(testData).ToString("F4"));
+            TestCasesUtils.ReportEnd(watch, result.Epochs, result.Error);
 
+            Console.WriteLine("Precisão com os dados de treinamento: " + net.Accuracy(trainData, numInput, numOutput).ToString("F4"));
+            Console.WriteLine("Precisão com os dados de teste: " + net.Accuracy(testData, numInput, numOutput).ToString("F4"));
+
+            var output = new List<double>();
             do
             {
                 while (!Console.KeyAvailable)
@@ -71,13 +85,14 @@ namespace NeuralNetwork.Tests
                     }
                     bool positive;
                     var data = br.GetData(path, out positive);
-                    nn.ComputeOutputs(data);
-                    var outputs = nn.GetOutputs();
-                    Utils.ShowVector(outputs, 2, 5, false);
+                    net.FeedForward(data);
+                    output.Clear();
+                    net.GetOutputs(output);
+                    ConsoleUtils.ShowVector(output, 2, 5, false);
                 }
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
-
+        
         private class BirdRecon
         {
             private readonly List<double[]> _trainData = new List<double[]>();

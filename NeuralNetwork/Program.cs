@@ -8,13 +8,14 @@ namespace NeuralNetwork
         static void Main(string[] args)
         {
             Console.WriteLine("Selecione o teste digitando '-iris', '-count' ou '-bird'");
-            var line = Console.ReadLine();
-            if (line == "-iris")
-                TestCases.IrisFlower();
-            else if (line == "-count")
-                TestCases.Count();
-            else if (line == "-bird")
-                TestCases.BirdRecognition();
+            var commands = Console.ReadLine().Split(' ');
+
+            if (commands[0] == "-iris")
+                TestCases.IrisFlower(commands);
+            else if (commands[0] == "-count")
+                TestCases.Count(commands);
+            else if (commands[0] == "-bird")
+                TestCases.BirdRecognition(commands);
 
             Console.WriteLine("\nPress ESC to stop");
             do
