@@ -14,7 +14,7 @@ namespace NeuralNetwork.Tests
 {
     public static partial class TestCases
     {
-        public static void BirdRecognition()
+        public static void BirdRecognition(string[] commands)
         {
             var br = new BirdRecon();
             br.LoadTrainData();
@@ -61,12 +61,12 @@ namespace NeuralNetwork.Tests
 
             var watch = new Stopwatch();
 
-            TestReportUtils.ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
+            TestCasesUtils.ReportStart(trainConfiguration.MaxEpochs, trainConfiguration.MinError, trainConfiguration.LearnRate, trainConfiguration.Momentum, trainConfiguration.WeightDecay);
             watch.Start();
             net.Train(trainConfiguration, inputs, targetOutputs, out result);
             watch.Stop();
 
-            TestReportUtils.ReportEnd(watch, result.Epochs, result.Error);
+            TestCasesUtils.ReportEnd(watch, result.Epochs, result.Error);
 
             Console.WriteLine("Precisão com os dados de treinamento: " + net.Accuracy(trainData, numInput, numOutput).ToString("F4"));
             Console.WriteLine("Precisão com os dados de teste: " + net.Accuracy(testData, numInput, numOutput).ToString("F4"));

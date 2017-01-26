@@ -67,7 +67,7 @@
     <Compile Include="Tests\BirdRecon.cs" />
     <Compile Include="Tests\Count.cs" />
     <Compile Include="Tests\IrisFlower.cs" />
-    <Compile Include="Utils\TestReportUtils.cs" />
+    <Compile Include="Utils\TestCasesUtils.cs" />
     <Compile Include="Utils\ConsoleUtils.cs" />
   </ItemGroup>
   <ItemGroup>

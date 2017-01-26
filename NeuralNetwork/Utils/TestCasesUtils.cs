@@ -4,7 +4,7 @@ using NeuralNetwork.Activations;
 
 namespace NeuralNetwork.Utils
 {
-    public static class TestReportUtils
+    public static class TestCasesUtils
     {
         public static void NeuralNetData(int numInput, int numHidden, int numOutput,
             IActivationFunction hiddenActivationFunction, IActivationFunction outputActivationFunction)
